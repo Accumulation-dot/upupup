@@ -25,7 +25,7 @@ SECRET_KEY = '4&^ayqolr1&y)#g#rzaije2704v604uuan@9pf_k4tj4a+kkas'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.100', '*']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -89,6 +89,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',  # mysql 驱动
+    #     'NAME': 'chain',  # 你的数据库名称
+    #     'USER': 'pro',  # 你的数据库用户名
+    #     'PASSWORD': 'Dpf120917',  # 你的数据库密码
+    #     'HOST': '127.0.0.1',  # 你的数据库主机，留空默认为localhost
+    #     'PORT': '3306',  # 你的数据库端口
+    # }
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
