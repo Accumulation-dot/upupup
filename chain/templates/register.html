@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone=yes"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+    <title>注册</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .txt {
+            display: block; /*设置为独立块（换行）*/
+            width: 70%;
+            margin: 0 auto;
+            height: 35px;
+            font-size: 15pt;
+            border-radius: 5px; /*设置圆角样式*/
+            border: 0;
+            padding-left: 8px;
+
+        }
+
+        .tip {
+            display: block; /*设置为独立块（换行）*/
+            width: 70%;
+            margin: 0 auto;
+            height: 35px;
+            font-size: 15pt;
+            border-radius: 5px; /*设置圆角样式*/
+            border: 0;
+            padding-left: 8px;
+
+        }
+        .tip_header {
+            display: block; /*设置为独立块（换行）*/
+            width: 70%;
+            margin: 0 auto;
+            height: 35px;
+            font-size: 20pt;
+            border-radius: 5px; /*设置圆角样式*/
+            border: 0;
+            padding-left: 8px;
+
+        }
+        #vcode {
+            height: 35px;
+            width: 40%;
+            font-size: 15pt;
+            margin-left: 15%;
+            border-radius: 5px;
+            border: 0;
+            padding-left: 8px;
+        }
+
+        #code {
+            color: #ffffff; /*字体颜色白色*/
+            background-color: #000000;
+            font-size: 20pt;
+            font-family: "华康娃娃体W5";
+            padding: 5px 35px 10px 35px;
+            margin-left: 5%;
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 70%;
+            margin-left: 15%;
+            height: 40px;
+            border: 0;
+            font-size: 14pt;
+            font-family: "微软雅黑";
+            background-color: #FF9800;
+            color: #ffffff;
+            cursor: pointer; /*设置指针鼠标的样式*/
+            border-radius: 20px; /*设置圆角样式*/
+            border: 0;
+        }
+
+        #download_link {
+            width: 70%;
+            text-align: right;
+            margin: 0 auto;
+            padding: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        function reg() {
+            const mobile = document.getElementById('mobile').value;
+            const password = document.getElementById('password').value;
+            const inviter = document.getElementById('inviter').value ?? '';
+            if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(mobile))) {
+                alert("手机号码有误，请重填");
+                return;
+            }
+
+            if (!(/^[A-Za-z0-9]{8,20}$/).test(password)) {
+                alert('密码必须是字母和数字的组合，长度为8-20位');
+                return;
+            }
+            $.post('/user/register.json', {
+                'username': mobile,
+                'password': password,
+                'inviter': inviter
+            }, function (data, message, xhr) {
+                if (xhr.status == 200) {
+                    alert(data.toString())
+                } else if (xhr.status == 201) {
+                    downloadPage();
+                }
+
+            })
+        }
+
+        function getQueryVariable(variable) {
+            const query = window.location.search.substring(1);
+            const vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            return '';
+        }
+
+        window.onload = function () {
+            const inviter = getQueryVariable('inviter');
+            changeImg();
+            if (inviter.length > 0 && inviter.length < 20) {
+                const inviterElement = document.getElementById('inviter');
+                inviterElement.value = inviter;
+                inviterElement.readOnly = true;
+            }
+        }
+
+        function downloadPage() {
+            $(location).attr('href', 'download.html')
+        }
+
+        var code;//声明一个变量用于存储生成的验证码
+        const codeLength = 6;
+        document.getElementById("code").οnclick = changeImg;
+
+        function changeImg() {
+            //alert("换图片");
+            var arrays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                'u', 'v', 'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z'];
+            code = '';//重新初始化验证码
+            //alert(arrays.length);
+            //随机从数组中获取四个元素组成验证码
+            for (var i = 0; i < 4; i++) {
+                //随机获取一个数组的下标
+                var r = parseInt(Math.random() * arrays.length);
+                code += arrays[r];
+                //alert(arrays[r]);
+            }
+            //alert(code);
+            document.getElementById('code').innerHTML = code;//将验证码写入指定区域
+        }
+
+    </script>
+</head>
+<body>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <label class="tip_header">欢迎您</label><br>
+
+    <label class="tip">请输入手机号码:</label><br>
+    <div>
+        <input type="tel" name="username" id="mobile" v-model="phone" class="txt" placeholder="请输入你的手机号码" maxlength="11"
+               oninput="value=value.replace(/[^\d]/g,'')"><br>
+    </div>
+
+    <label class="tip">请输入密码</label><br>
+    <div>
+        <input type="password" name="password" id="password" class="txt" placeholder="请输入密码：数字和字母的组合 8-20位"><br>
+    </div>
+
+    <label class="tip">选填：请输入朋友的邀请码</label><br>
+    <div>
+        <input type="text" name="inviter" id="inviter" class="txt" maxlength="20"
+               oninput="value=value.replace(/[^\w\.\/]/ig,'')"
+               onkeyup="this.value=this.value.toUpperCase()" placeholder="请输入朋友的邀请码"><br><br>
+    </div>
+
+    <div>
+        <input type="text" name="validate" id="vcode" maxlength="6" placeholder="验证码">
+        <span id="code" title="看不清，换一张"></span>
+    </div>
+    <br>
+    {#    <input type="submit" value="注册">#}
+
+    <div>
+        <button onclick="reg()" type="button" class="btn">快速注册</button>
+        <div id="download_link">
+            <a href="download.html">已注册，去下载</a>
+        </div>
+
+    </div>
+</form>
+</body>
+</html>

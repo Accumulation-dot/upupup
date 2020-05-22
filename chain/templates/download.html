@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone=yes"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .btn {
+            width: 70%;
+            margin-left: 15%;
+            height: 40px;
+            border: 0;
+            font-size: 14pt;
+            font-family: "微软雅黑";
+            background-color: #FF9800;
+            color: #ffffff;
+            cursor: pointer; /*设置指针鼠标的样式*/
+            border-radius: 20px; /*设置圆角样式*/
+            border: 0;
+        }
+        .tip {
+            display: block; /*设置为独立块（换行）*/
+            width: 70%;
+            margin: 0 auto;
+            height: 35px;
+            font-size: 15pt;
+            border-radius: 5px; /*设置圆角样式*/
+            border: 0;
+            padding-left: 8px;
+
+        }
+    </style>
+    <title>下载</title>
+    <script>
+        var version = '0.0.0';
+        function download() {
+            window.location.href = 'media/app/app-release.apk';
+        }
+        window.onload = function () {
+            $.get('version.json', function (data, message, xhr) {
+                if (xhr.status == 200) {
+                    version = data['version'];
+                    alert(version);
+                    document.getElementById('version').innerHTML = '当前最新版本为:' + version;
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <label class="tip" id="version">当前最新版本为:</label>
+        <input class="btn" type="button" onclick="download()" value="下载">
+    </div>
+
+</body>
+</html>
