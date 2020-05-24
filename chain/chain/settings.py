@@ -142,13 +142,15 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_ROOT = '/opt/nginx/static/'
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+STATIC_ROOT = '/data/static/'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'tools.tools.CustomPagination',
