@@ -9,7 +9,7 @@ class AppVersionS(serializers.ModelSerializer):
 
     class Meta:
         model = AppVersion
-        fields = ('version', 'flag',)
+        fields = ('version', 'flag', 'app',)
 
     def get_flag(self, obj):
         if obj.flag:

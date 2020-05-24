@@ -40,14 +40,15 @@
     <title>下载</title>
     <script>
         var version = '0.0.0';
+        var url = '';
         function download() {
-            window.location.href = 'media/app/app-release.apk';
+            window.location.href = url;//'media/app/app-release.apk';
         }
         window.onload = function () {
             $.get('version.json', function (data, message, xhr) {
                 if (xhr.status == 200) {
                     version = data['version'];
-                    alert(version);
+                    url = data['app'];
                     document.getElementById('version').innerHTML = '当前最新版本为:' + version;
                 }
             })
