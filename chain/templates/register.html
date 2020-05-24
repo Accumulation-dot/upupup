@@ -88,7 +88,18 @@
             padding: 5px;
         }
     </style>
+    <script>
+        window.onload = function () {
+            const inviter = getQueryVariable('inviter');
+            if (inviter.length > 0 && inviter.length < 20) {
+                const inviterElement = document.getElementById('inviter');
+                inviterElement.value = inviter;
+                inviterElement.readOnly = true;
+            }
+        }
+    </script>
     <script type="text/javascript">
+
         function reg() {
             const mobile = document.getElementById('mobile').value;
             const password = document.getElementById('password').value;
@@ -128,45 +139,12 @@
             return '';
         }
 
-        window.onload = function () {
-            const inviter = getQueryVariable('inviter');
-            {#changeImg();#}
-            if (inviter.length > 0 && inviter.length < 20) {
-                const inviterElement = document.getElementById('inviter');
-                inviterElement.value = inviter;
-                inviterElement.readOnly = true;
-            }
-        }
 
         function downloadPage() {
             $(location).attr('href', 'download.html')
         }
 
-        var code;//声明一个变量用于存储生成的验证码
         const codeLength = 6;
-        document.getElementById("code").οnclick = changeImg;
-
-        function changeImg() {
-            //alert("换图片");
-            var arrays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                'u', 'v', 'w', 'x', 'y', 'z',
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-                'U', 'V', 'W', 'X', 'Y', 'Z'];
-            code = '';//重新初始化验证码
-            //alert(arrays.length);
-            //随机从数组中获取四个元素组成验证码
-            for (var i = 0; i < 4; i++) {
-                //随机获取一个数组的下标
-                var r = parseInt(Math.random() * arrays.length);
-                code += arrays[r];
-                //alert(arrays[r]);
-            }
-            //alert(code);
-            document.getElementById('code').innerHTML = code;//将验证码写入指定区域
-        }
 
     </script>
 </head>
@@ -193,13 +171,6 @@
                oninput="value=value.replace(/[^\w\.\/]/ig,'')"
                onkeyup="this.value=this.value.toUpperCase()" placeholder="请输入朋友的邀请码"><br><br>
     </div>
-
-{#    <div>#}
-{#        <input type="text" name="validate" id="vcode" maxlength="6" placeholder="验证码">#}
-{#        <span id="code" title="看不清，换一张" onclick="changeImg()"></span>#}
-{#    </div>#}
-    <br>
-    {#    <input type="submit" value="注册">#}
 
     <div>
         <button onclick="reg()" type="button" class="btn">快速注册</button>
