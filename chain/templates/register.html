@@ -58,9 +58,10 @@
 
         #code {
             color: #ffffff; /*字体颜色白色*/
+            width: 40%;
             background-color: #000000;
-            font-size: smaller;
-            font-family: "华康娃娃体W5";
+            font-size: 20px;
+            {#font-family: "华康娃娃体W5";#}
             padding: 5px 5px 5px 5px;
             margin-left: 5%;
             cursor: pointer;
@@ -129,7 +130,7 @@
 
         window.onload = function () {
             const inviter = getQueryVariable('inviter');
-            changeImg();
+            {#changeImg();#}
             if (inviter.length > 0 && inviter.length < 20) {
                 const inviterElement = document.getElementById('inviter');
                 inviterElement.value = inviter;
@@ -193,10 +194,10 @@
                onkeyup="this.value=this.value.toUpperCase()" placeholder="请输入朋友的邀请码"><br><br>
     </div>
 
-    <div>
-        <input type="text" name="validate" id="vcode" maxlength="6" placeholder="验证码">
-        <span id="code" title="看不清，换一张"></span>
-    </div>
+{#    <div>#}
+{#        <input type="text" name="validate" id="vcode" maxlength="6" placeholder="验证码">#}
+{#        <span id="code" title="看不清，换一张" onclick="changeImg()"></span>#}
+{#    </div>#}
     <br>
     {#    <input type="submit" value="注册">#}
 
