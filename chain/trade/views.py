@@ -88,7 +88,7 @@ def sell_item(request, format=None):
     # cash = float(number) * 1.5
     # (1.0 + min(1.0, max(0.0, rule.tax)))
     if cash > coin - rule.min_num:
-        return Response(data='你当前的币不足， 请保证售卖之后还能保留最少{}个币'.format(str(rule.min_num)), status=status.HTTP_200_OK)
+        return Response(data='你当前的SD不足， 请保证售卖之后还能保留最少{}个SD'.format(str(rule.min_num)), status=status.HTTP_200_OK)
     serializer.save(user=request.user)
     # cr(user=request.user, key='selling', point=float(cash) * -1, desc='挂单出售').save()
     try:

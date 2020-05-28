@@ -105,7 +105,7 @@ def advert_add(request, format=None):
     coin = query_coin(request.user)
     rule = query_rule()
     if coin - rule.advert < 0:
-        return Response('发布需要消耗{}币'.format(rule.advert))
+        return Response('发布需要消耗{}SD'.format(rule.advert))
     else:
         serializer.is_valid(raise_exception=True)
         cm.record_creation(request.user, key='advert', point=-rule.advert, desc='发布广告扣除')
@@ -119,7 +119,7 @@ def advert_up(request, format=None):
     coin = query_coin(request.user)
     rule = query_rule()
     if coin - rule.advert < 0:
-        return Response('发布需要消耗{}币'.format(rule.advert))
+        return Response('发布需要消耗{}SD'.format(rule.advert))
     advert_id = request.data.get('advert')
     if not advert_id:
         return Response('请选择需要置顶的广告')
