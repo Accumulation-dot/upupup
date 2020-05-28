@@ -166,10 +166,11 @@
     {% csrf_token %}
     <label class="tip_header">欢迎您</label><br>
     <div>
-        <div id="middle">
+        <div align="center">
             <img src="/static/img/icon.jpg">
         </div>
     </div>
+    <br>
 
     <div>
         <input type="tel" name="username" id="mobile" v-model="phone" class="txt" placeholder="手机号码" maxlength="11"
