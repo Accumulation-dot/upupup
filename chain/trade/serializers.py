@@ -44,7 +44,6 @@ class SellSummarySerializer(rfs.ModelSerializer):
         exclude = ('id',)
 
     def get_user(self, obj):
-        # return user_info_data(obj.user)
         return user_info_address(obj.user)
 
 

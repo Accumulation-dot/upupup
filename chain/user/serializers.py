@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField, D
 
 from coins.models import query_coin, query_shop
 from user import models
-from user.models import CoinUser, CoinUserInfo, Address
+from user.models import CoinUser, CoinUserInfo
 from pay.models import payment_count
 
 
@@ -26,18 +26,10 @@ class UserRegisterSerializer(ModelSerializer):
         fields = ('username', 'password',)
 
 
-class AddressSerializer(ModelSerializer):
-    class Meta:
-        model = Address
-        exclude = ('id', 'user',)
-
-
 class CoinUserInfoSerializer(ModelSerializer):
     coin = SerializerMethodField(read_only=True)
 
     created = DateTimeField(format='%Y-%m-%d %H:%M:%S')
-
-    address = SerializerMethodField(read_only=True)
 
     class Meta:
         model = CoinUserInfo
@@ -45,13 +37,6 @@ class CoinUserInfoSerializer(ModelSerializer):
 
     def get_coin(self, objc):
         return query_coin(objc.user)
-
-    def get_address(self, objc):
-        try:
-            address = Address.objects.get(user=objc.user)
-        except Address.DoesNotExist as e:
-            return ''
-        return address.address
 
 
 class SummarySerializer(ModelSerializer):
@@ -112,10 +97,10 @@ def user_info_data(user):
 
 def user_info_address(user):
     try:
-        address = Address.objects.get(user=user)
-    except Address.DoesNotExist as e:
+        coinUserInfo = CoinUserInfo.objects.get(user=user)
+    except CoinUserInfo.DoesNotExist as e:
         return ''
-    return address.address
+    return coinUserInfo.address
 
 
 def user_name(user):

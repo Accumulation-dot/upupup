@@ -9,11 +9,11 @@ from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handl
 
 from coins.models import query_award
 from machine.models import machine_given_free
+from tools.choices import award_sign_in
 from tools.tools import CustomPagination
 from user import models as um, serializers as us
-from user.models import CoinUser, CoinUserInfo, user_info_creation, user_address_creation
+from user.models import CoinUser, CoinUserInfo, user_info_creation
 from user.serializers import UserSerializer, CoinUserInfoSerializer, TeamSerializer
-from tools.choices import award_sign_in
 
 User = get_user_model()
 
@@ -43,7 +43,6 @@ class UserCreation(generics.CreateAPIView):
                 user.level = 2
                 user.save()
             user_info_creation(user)
-            user_address_creation(user)
             award_key = award_sign_in
             query_award(award_key, user=user)
             info = CoinUserInfo.objects.filter(user=user.id).first()

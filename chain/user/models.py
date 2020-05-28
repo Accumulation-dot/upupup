@@ -46,17 +46,6 @@ class CoinUserInfo(BaseModel):
         return self.user.username + ' &&' + self.name
 
 
-class Address(BaseModel):
-    user = models.OneToOneField(CoinUser, on_delete=models.CASCADE)
-    address = models.CharField(max_length=100, verbose_name='唯一的表示地址')
-
-    class Meta:
-        verbose_name = verbose_name_plural = '用户标示表'
-
-    def __str__(self):
-        return self.user.username + ' &&' + self.name
-
-
 class Identifier(models.Model):
     user = models.OneToOneField(CoinUser, on_delete=models.DO_NOTHING,
                                 verbose_name='用户信息', help_text='用户信息')
@@ -79,14 +68,6 @@ def user_info_creation(user):
     return info
 
 
-def user_address_creation(user):
-    u = uuid.uuid5(uuid.NAMESPACE_DNS, str(uuid.uuid1()))
-
-    address = Address(user=user, address=str(u) + str(int(time.time())))
-    address.save()
-    return address
-
-
 def ident_count(user):
     return Identifier.objects.aggregate(count=Count('id', filter=Q(user=user))).get('count', 0)
 
@@ -96,4 +77,3 @@ def inviter_query(user):
     inviter = CoinUser.objects.filter(code=user.inviter).first()
     print(inviter)
     return inviter
-    #CoinUser.objects.filter(code=user.inviter).first()
