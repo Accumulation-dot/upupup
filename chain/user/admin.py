@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from user.models import CoinUserInfo, CoinUser
+from user.models import CoinUserInfo, CoinUser, Address, Identifier
+
+
 # Register your models here.
 
 
@@ -12,3 +14,13 @@ class CoinUser(admin.ModelAdmin):
 @admin.register(CoinUserInfo)
 class CoinUserInfoAdmin(admin.ModelAdmin):
     list_display = ('id', 'name',)
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+
+
+@admin.register(Identifier)
+class IdentifierAdmin(admin.ModelAdmin):
+    list_display = ('user', 'name', 'number',)
