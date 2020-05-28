@@ -17,9 +17,8 @@
             height: 35px;
             font-size: 15pt;
             border-radius: 5px; /*设置圆角样式*/
-            border: 0;
+            border-width: 2px;
             padding-left: 8px;
-
         }
 
         .tip {
@@ -31,8 +30,8 @@
             border-radius: 5px; /*设置圆角样式*/
             border: 0;
             padding-left: 8px;
-
         }
+
         .tip_header {
             display: block; /*设置为独立块（换行）*/
             width: 70%;
@@ -42,7 +41,6 @@
             border-radius: 5px; /*设置圆角样式*/
             border: 0;
             padding-left: 8px;
-
         }
 
         .btn {
@@ -88,17 +86,17 @@
             width: 300px;
             margin: 30px auto;
             text-align: center; /*设置文本水平居中*/
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border-radius: 4px;
-            padding: 30px 20px;/*通过内边距将盒子撑大实现居中*/
+            padding: 30px 20px; /*通过内边距将盒子撑大实现居中*/
         }
     </style>
     <script type="text/javascript">
         function reg() {
             const mobile = document.getElementById('mobile').value;
             const password = document.getElementById('password').value;
-            const inviter = document.getElementById('inviter').value ?? '';
+            const inviter = document.getElementById('inviter').value;
             if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(mobile))) {
                 alertMessage("手机号码有误，请重填");
                 return;
@@ -135,16 +133,7 @@
         }
 
         function alertMessage(message) {
-            var mask_div = document.getElementById('mask')
-            var content_div = document.getElementById('mask-content')
-
-            mask_div.style.display = "block";
-            content_div.textContent = message;
-            setInterval(function () {
-                mask_div.style.display = "none";
-            }, 2000);
-
-            return false;
+            alert(message);
         }
 
 
@@ -176,19 +165,20 @@
 <form action="" method="post">
     {% csrf_token %}
     <label class="tip_header">欢迎您</label><br>
+    <div>
+        <div id="middle">
+            <img src="/static/img/icon.jpg">
+        </div>
+    </div>
 
-    <label class="tip">请输入手机号码:</label><br>
     <div>
         <input type="tel" name="username" id="mobile" v-model="phone" class="txt" placeholder="手机号码" maxlength="11"
                oninput="value=value.replace(/[^\d]/g,'')"><br>
     </div>
-
-    <label class="tip">请输入密码</label><br>
     <div>
         <input type="password" name="password" id="password" class="txt" placeholder="数字和字母的组合 8-20位"><br>
     </div>
 
-    <label class="tip">选填：朋友的邀请码</label><br>
     <div>
         <input type="text" name="inviter" id="inviter" class="txt" maxlength="20"
                oninput="value=value.replace(/[^\w\.\/]/ig,'')"
