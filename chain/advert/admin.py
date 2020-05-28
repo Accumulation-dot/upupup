@@ -6,4 +6,4 @@ from advert.models import Content
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'title',)
+    list_display = ('title',)

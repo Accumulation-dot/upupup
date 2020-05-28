@@ -19,7 +19,7 @@ class Content(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = '新闻表'
+        verbose_name = '广告表'
         verbose_name_plural = verbose_name
         ordering = ('-datetime',)
 

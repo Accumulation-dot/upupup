@@ -47,7 +47,7 @@ class CoinUserInfo(BaseModel):
 
 
 class Address(BaseModel):
-    user = models.OneToOneField(CoinUser, on_delete=models.DO_NOTHING)
+    user = models.OneToOneField(CoinUser, on_delete=models.CASCADE)
     address = models.CharField(max_length=100, verbose_name='唯一的表示地址')
 
     class Meta:
@@ -69,8 +69,8 @@ class Identifier(models.Model):
         verbose_name = verbose_name_plural = '身份证信息'
         unique_together = ('number',)
 
-        def __str__(self):
-            return self.user.username + ' &&' + self.name
+    def __str__(self):
+        return self.user.username + ' &&' + self.name
 
 
 def user_info_creation(user):
