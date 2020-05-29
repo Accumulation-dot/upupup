@@ -49,7 +49,7 @@ class NewsSerializer(rfs.ModelSerializer):
 
     class Meta:
         model = nsm.News
-        fields = '__all__'
+        exclude = ('created',)
 
 
 class TaskSerializer(rfs.ModelSerializer):

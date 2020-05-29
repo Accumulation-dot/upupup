@@ -52,11 +52,14 @@ class News(models.Model):
 
     date = models.DateField(auto_now_add=True, null=True)
 
+    created = models.DateTimeField(auto_now=True,)
+
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name = verbose_name_plural = '新闻表'
+        ordering = ('-created',)
 
 
 class Task(models.Model):
