@@ -1,4 +1,6 @@
-from django.contrib.auth import get_user_model
+import re
+
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Count
 from rest_framework import generics, permissions, status
@@ -12,7 +14,7 @@ from machine.models import machine_given_free
 from tools.choices import award_sign_in
 from tools.tools import CustomPagination
 from user import models as um, serializers as us
-from user.models import CoinUser, CoinUserInfo, user_info_creation
+from user.models import CoinUser, CoinUserInfo, user_info_creation, Identifier
 from user.serializers import UserSerializer, CoinUserInfoSerializer, TeamSerializer
 
 User = get_user_model()
@@ -124,3 +126,54 @@ def user_team(request, format=None):
     pagination = CustomPagination()
     query = pagination.paginate_queryset(infos, request)
     return pagination.get_paginated_response(TeamSerializer(query, many=True).data)
+
+
+# 更改密码
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def user_forget_pd(request, format=None):
+    # 获取身份证信息
+    # 获取手机号码
+    #
+    un = request.data.get('un', '')
+    ide = request.data.get('ide', '')
+    np = request.data.get('np', "")
+    if not un or not ide:
+        return Response('请确保输入正确的信息,如果未绑定身份信息，请联系客服进行更改')
+    try:
+        user = CoinUser.objects.get(username=un)
+        identifier = Identifier.objects.get(user=user, number=ide)
+        reg = re.compile(r'^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$')
+        if reg.search(np) is None:
+            return Response('密码必须是数字和字母的组合（8-16位）')
+        user.set_password(np)
+        user.save()
+        return Response('密码更改成功，请使用新密码进行登陆', status=status.HTTP_202_ACCEPTED)
+    except (CoinUserInfo.DoesNotExist, Identifier.DoesNotExist) as e:
+        return Response('请确保输入正确的信息,如果未绑定身份信息，请联系客服进行更改')
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def user_change_pd(request, format=None):
+    old = request.data.get('op', '')
+    np = request.data.get('np', "")
+    if not old or not np:
+        return Response('请输入原密码和新密码')
+    if old == np:
+        return Response('原密码与新密码一致')
+    try:
+        user = request.user
+        if not user.check_password(old):
+            # 密码错误
+            return Response('请输入正确的原密码')
+        reg = re.compile(r'^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$')
+        if reg.search(np) is None:
+            return Response('密码必须是数字和字母的组合（8-16位）')
+        user.set_password(np)
+        user.save()
+        if request.user:
+            logout(request)
+        return Response('密码更改成功，请使用新密码进行登陆', status=status.HTTP_202_ACCEPTED)
+    except (CoinUserInfo.DoesNotExist, Identifier.DoesNotExist) as e:
+        return Response('请确保输入正确的信息,如果未绑定身份信息，请联系客服进行更改')

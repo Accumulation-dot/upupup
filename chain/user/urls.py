@@ -11,4 +11,6 @@ urlpatterns = [
     path('identify/', uv.identifier_request),
     path('summary/', uv.user_summary),
     path('team/', uv.user_team),
+    path('mp/', uv.user_forget_pd),
+    path('password/', uv.user_change_pd),
 ]
