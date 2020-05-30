@@ -253,7 +253,7 @@ def buy_cancel(request, format=None):
     if buy_record is not None:
         return Response('当前订单已被预定，不能进行取消')
 
-    result = tm.Sell.objects.filter(serial_no=serial_no, status=0).update(status=4)
+    result = tm.Buy.objects.filter(serial_no=serial_no, status=0).update(status=4)
     if result == 0:
         return Response('请刷新数据重试，当前订单可能已被预定')
 
