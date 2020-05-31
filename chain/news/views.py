@@ -41,11 +41,8 @@ def task_request(request, format=None):
     else:
         tasks = nsm.Task.objects.filter(user=request.user)
         pagination = CustomPagination()
-        try:
-            query = pagination.paginate_queryset(tasks, request)
-            return pagination.get_paginated_response(nss.TaskSerializer(query, many=True).data)
-        except NotFound as e:
-            return Response('没有数据', status=status.HTTP_404_NOT_FOUND)
+        query = pagination.paginate_queryset(tasks, request)
+        return pagination.get_paginated_response(nss.TaskSerializer(query, many=True).data)
 
 
 @api_view(['GET'])

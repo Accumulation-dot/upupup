@@ -72,3 +72,4 @@ class Task(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = '任务'
         unique_together = ('user', 'date')
+        ordering = ('-date',)

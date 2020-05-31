@@ -122,7 +122,7 @@ def user_summary(request, format=None):
 @permission_classes([permissions.IsAuthenticated])
 def user_team(request, format=None):
     # 获取我的下面的人员
-    infos = CoinUser.objects.filter(inviter=request.user.code)
+    infos = CoinUser.objects.filter(inviter=request.user.code).order_by('-date_joined')
     pagination = CustomPagination()
     query = pagination.paginate_queryset(infos, request)
     return pagination.get_paginated_response(TeamSerializer(query, many=True).data)
