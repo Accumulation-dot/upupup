@@ -48,6 +48,9 @@ class Buy(BaseModel):
         verbose_name = verbose_name_plural = '收购表'
         ordering = ['-created']
 
+    def __str__(self):
+        return self.number
+
 
 class SellRecord(BaseModel):
     user = models.ForeignKey(CoinUser, related_name='buyer', on_delete=models.CASCADE,
@@ -59,6 +62,9 @@ class SellRecord(BaseModel):
 
     class Meta:
         verbose_name = verbose_name_plural = '预定出售记录'
+
+    def __str__(self):
+        return self.serial_no
 
 # Pay.objects.aggregate(count=Count('id', filter=Q(use=True) & Q(user=user)))
 # def sell_record_count(sell):
@@ -76,6 +82,9 @@ class BuyRecord(BaseModel):
 
     class Meta:
         verbose_name = verbose_name_plural = '预定求购记录'
+
+    def __str__(self):
+        return self.serial_no
 
 
 class SellDetail(BaseModel):
