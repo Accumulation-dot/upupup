@@ -58,7 +58,7 @@ class SellRecord(BaseModel):
     serial_no = models.CharField(max_length=50, default=random.sell_record_code)
 
     class Meta:
-        verbose_name = verbose_name_plural = '出售记录'
+        verbose_name = verbose_name_plural = '预定出售记录'
 
 # Pay.objects.aggregate(count=Count('id', filter=Q(use=True) & Q(user=user)))
 # def sell_record_count(sell):
@@ -75,7 +75,7 @@ class BuyRecord(BaseModel):
     serial_no = models.CharField(max_length=50, default=random.buy_record_code)
 
     class Meta:
-        verbose_name = verbose_name_plural = '出售购买记录'
+        verbose_name = verbose_name_plural = '预定求购记录'
 
 
 class SellDetail(BaseModel):
