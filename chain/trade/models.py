@@ -49,7 +49,7 @@ class Buy(BaseModel):
         ordering = ['-created']
 
     def __str__(self):
-        return self.number
+        return self.serial_no
 
 
 class SellRecord(BaseModel):
